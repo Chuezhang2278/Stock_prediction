@@ -117,7 +117,7 @@ class sign_window(object):
         self.label_5.setText(_translate("MainWindow", "Email"))
         self.Signup_button2.setText(_translate("MainWindow", "Donezo"))
     
-    def Login_window(self):         
+    def Login_window(self): #testing        
         MainWindow.close()
         MainWindow.show()
 
