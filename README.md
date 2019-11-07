@@ -1,3 +1,2 @@
-# MemeStocks
-mysql.connector
+# mysql.connector
 pip install mysql-connector-python
