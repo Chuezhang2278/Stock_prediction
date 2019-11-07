@@ -1,2 +1,3 @@
 # MemeStocks
-Meme Stock Market
+mysql.connector
+pip install mysql-connector-python
