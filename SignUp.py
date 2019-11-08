@@ -13,12 +13,14 @@ from PySide2 import QtCore, QtGui, QtWidgets
 class SignUpWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(445, 301)
+        MainWindow.resize(446, 306)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
         MainWindow.setSizePolicy(sizePolicy)
+        MainWindow.setMinimumSize(QtCore.QSize(446, 306))
+        MainWindow.setMaximumSize(QtCore.QSize(446, 306))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
@@ -80,7 +82,7 @@ class SignUpWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "MainWindow", None, -1))
+        MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "Sign Up - Meme Stock Market", None, -1))
         self.label.setText(QtWidgets.QApplication.translate("MainWindow", "Full Name:", None, -1))
         self.label_2.setText(QtWidgets.QApplication.translate("MainWindow", "SSN:", None, -1))
         self.label_3.setText(QtWidgets.QApplication.translate("MainWindow", "Username:", None, -1))

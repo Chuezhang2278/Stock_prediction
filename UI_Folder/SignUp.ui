@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>445</width>
-    <height>301</height>
+    <width>446</width>
+    <height>306</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -16,8 +16,20 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>446</width>
+    <height>306</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>446</width>
+    <height>306</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Sign Up - Meme Stock Market</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="label">
