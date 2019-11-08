@@ -62,6 +62,7 @@ class LoginWindow(object):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
+    app.setWindowIcon(QtGui.QIcon("UI_Folder/icon.png"))
     MainWindow = QtWidgets.QMainWindow()
     ui = LoginWindow()
     ui.setupUi(MainWindow)
