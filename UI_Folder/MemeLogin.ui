@@ -34,6 +34,10 @@
   <property name="windowTitle">
    <string>Log In - Meme Stock Market</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="icon.qrc">
+    <normaloff>:/newPrefix/icon.png</normaloff>:/newPrefix/icon.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="label">
     <property name="geometry">
