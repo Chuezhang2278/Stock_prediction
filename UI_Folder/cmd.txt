@@ -1,0 +1,6 @@
+pyside2-uic mainwindow.ui > ui_mainwindow.py
+pyrcc5 resource.qrc -o resource_rc.py
+
+pyside2-uic MemeLogin.ui > MemeLogin.py
+pyside2-uic SignUp.ui > SignUp.py
+pyrcc5 icon.qrc -o icon_rc.py
