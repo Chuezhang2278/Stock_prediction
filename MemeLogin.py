@@ -9,6 +9,8 @@
 # WARNING! All changes made in this file will be lost!
 import sys, icon_rc, qdarkstyle
 from PySide2 import QtCore, QtGui, QtWidgets
+from SignUp import SignUpWindow
+from MainWindow import MemeWindow
 
 class LoginWindow(object):
     def setupUi(self, MainWindow):
@@ -59,12 +61,29 @@ class LoginWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        self.SignUp_Button.clicked.connect(self.signup)
+        self.Login_Button.clicked.connect(self.login)
+
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "Log In - Meme Stock Market", None, -1))
         self.label.setText(QtWidgets.QApplication.translate("MainWindow", "Username:", None, -1))
         self.label_2.setText(QtWidgets.QApplication.translate("MainWindow", "Password:", None, -1))
         self.Login_Button.setText(QtWidgets.QApplication.translate("MainWindow", "Login", None, -1))
         self.SignUp_Button.setText(QtWidgets.QApplication.translate("MainWindow", "Sign Up", None, -1))
+
+    def signup(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = SignUpWindow()
+        self.ui.setupUi(self.window)
+        self.window.show()
+
+    def login(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = MemeWindow()
+        self.ui.setupUi(self.window)
+        MainWindow.hide()
+        self.window.show()
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
