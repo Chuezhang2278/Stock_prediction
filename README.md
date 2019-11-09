@@ -9,3 +9,4 @@ pip install qdarkstyle
 #### IF DLL LOAD ERROR, REINSTALL PYQT5
 pip uninstall pyqt5
 pip install pyqt5 
+If error persists, maybe uninstall pyqt5-tools
