@@ -1,5 +1,8 @@
 import mysql.connector
 
+## FILE MADE FOR TESTING OUT DATABASE ##
+
+
 mydb = mysql.connector.connect(
     host='localhost',
     user='root',
