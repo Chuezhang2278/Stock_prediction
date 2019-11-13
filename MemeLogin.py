@@ -7,7 +7,7 @@
 #      by: pyside2-uic  running on PySide2 5.13.2
 #
 # WARNING! All changes made in this file will be lost!
-import sys, icon_rc, qdarkstyle
+import sys, icon_rc, qdarkstyle, mysql.connector
 from PySide2 import QtCore, QtGui, QtWidgets
 from SignUp import SignUpWindow
 from MainWindow import MemeWindow
@@ -78,13 +78,39 @@ class LoginWindow(object):
         self.window.show()
 
     def login(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = MemeWindow()
-        self.ui.setupUi(self.window)
-        MainWindow.hide()
-        self.window.show()
+        Username = self.Username_lineEdit.text()
+        Password = self.password_LineEdit.text()
 
+        mydb = mysql.connector.connect(
+            host='localhost',
+            user='root',
+            password='123password',
+            database='memestock')
 
+        mycursor = mydb.cursor()
+        # check how this library does user input
+        # check how string equality works
+
+        mycursor.execute("SELECT Username ,Pass FROM users")
+        usercheck = mycursor.fetchall()
+        print(type(usercheck[0][0]), type(Username), Password);
+
+        mycursor.execute("SELECT Username,Pass FROM users WHERE Username = %s AND Pass = %s", (Username, Password) )
+        usercheck = mycursor.fetchone()
+
+        for result in usercheck:
+            if(result[0] == Username and result[1] == Password):
+                print("Passed")
+                # Below is for going to the mainwindow
+                self.window = QtWidgets.QMainWindow()
+                self.ui = MemeWindow()
+                self.ui.setupUi(self.window)
+                MainWindow.hide()
+                self.window.show()
+            else:
+                print("Not found")
+                
+        
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     app.setWindowIcon(QtGui.QIcon("UI_Folder/icon.png"))

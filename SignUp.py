@@ -7,7 +7,7 @@
 #      by: pyside2-uic  running on PySide2 5.13.2
 #
 # WARNING! All changes made in this file will be lost!
-import sys, icon_rc, qdarkstyle
+import sys, icon_rc, qdarkstyle, mysql.connector
 from PySide2 import QtCore, QtGui, QtWidgets
 
 class SignUpWindow(object):
@@ -41,21 +41,21 @@ class SignUpWindow(object):
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
         self.label_5.setGeometry(QtCore.QRect(60, 180, 61, 16))
         self.label_5.setObjectName("label_5")
-        self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit.setGeometry(QtCore.QRect(140, 60, 221, 22))
-        self.lineEdit.setObjectName("lineEdit")
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit_2.setGeometry(QtCore.QRect(140, 90, 221, 22))
-        self.lineEdit_2.setObjectName("lineEdit_2")
-        self.lineEdit_3 = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit_3.setGeometry(QtCore.QRect(140, 120, 221, 22))
-        self.lineEdit_3.setObjectName("lineEdit_3")
-        self.lineEdit_4 = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit_4.setGeometry(QtCore.QRect(140, 150, 221, 22))
-        self.lineEdit_4.setObjectName("lineEdit_4")
-        self.lineEdit_5 = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit_5.setGeometry(QtCore.QRect(140, 180, 221, 22))
-        self.lineEdit_5.setObjectName("lineEdit_5")
+        self.Name_lineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.Name_lineEdit.setGeometry(QtCore.QRect(140, 60, 221, 22))
+        self.Name_lineEdit.setObjectName("Name_lineEdit")
+        self.SSN_lineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.SSN_lineEdit.setGeometry(QtCore.QRect(140, 90, 221, 22))
+        self.SSN_lineEdit.setObjectName("SSN_lineEdit")
+        self.User_lineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.User_lineEdit.setGeometry(QtCore.QRect(140, 120, 221, 22))
+        self.User_lineEdit.setObjectName("User_lineEdit")
+        self.PW_lineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.PW_lineEdit.setGeometry(QtCore.QRect(140, 150, 221, 22))
+        self.PW_lineEdit.setObjectName("PW_lineEdit")
+        self.Email_lineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.Email_lineEdit.setGeometry(QtCore.QRect(140, 180, 221, 22))
+        self.Email_lineEdit.setObjectName("Email_lineEdit")
         self.Signup_button2 = QtWidgets.QPushButton(self.centralwidget)
         self.Signup_button2.setGeometry(QtCore.QRect(180, 240, 93, 28))
         self.Signup_button2.setObjectName("Signup_button2")
@@ -84,6 +84,8 @@ class SignUpWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        self.Signup_button2.clicked.connect(self.add_user)
+
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "Sign Up - Meme Stock Market", None, -1))
         self.label.setText(QtWidgets.QApplication.translate("MainWindow", "Full Name:", None, -1))
@@ -96,6 +98,29 @@ class SignUpWindow(object):
         self.maleRadio.setText(QtWidgets.QApplication.translate("MainWindow", "Male", None, -1))
         self.femaleRadio.setText(QtWidgets.QApplication.translate("MainWindow", "Female", None, -1))
         self.nonbinaryradio.setText(QtWidgets.QApplication.translate("MainWindow", "Non-Binary", None, -1))
+    
+    def add_user(self):
+        mydb = mysql.connector.connect(
+            host='localhost',
+            user='root',
+            password='123password',
+            database='memestock')
+        
+        Fullname = self.Name_lineEdit.text()
+        SSN = self.SSN_lineEdit.text()
+        User = self.User_lineEdit.text()
+        Password = self.PW_lineEdit.text()
+        E = self.Email_lineEdit.text()
+
+        mycursor = mydb.cursor()
+
+        add_user = ("INSERT INTO memestock.users(Fullname, SSN, Username, Pass, Email) VALUES (%s, %s, %s, %s, %s)")
+
+        data_user = (Fullname, SSN, User, Password, E)
+
+        mycursor.execute(add_user, data_user)
+
+        mydb.commit()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
