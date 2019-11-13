@@ -89,26 +89,19 @@ class LoginWindow(object):
 
         mycursor = mydb.cursor()
         # check how this library does user input
-        # check how string equality works
-
-        mycursor.execute("SELECT Username ,Pass FROM users")
-        usercheck = mycursor.fetchall()
-        print(type(usercheck[0][0]), type(Username), Password);
+        # check how string equality work
 
         mycursor.execute("SELECT Username,Pass FROM users WHERE Username = %s AND Pass = %s", (Username, Password) )
         usercheck = mycursor.fetchone()
-
-        for result in usercheck:
-            if(result[0] == Username and result[1] == Password):
-                print("Passed")
-                # Below is for going to the mainwindow
-                self.window = QtWidgets.QMainWindow()
-                self.ui = MemeWindow()
-                self.ui.setupUi(self.window)
-                MainWindow.hide()
-                self.window.show()
-            else:
-                print("Not found")
+        if(usercheck[0] == Username and usercheck[1] == Password):
+            print("Passed")
+            self.window = QtWidgets.QMainWindow()
+            self.ui = MemeWindow()
+            self.ui.setupUi(self.window)
+            MainWindow.hide()
+            self.window.show()
+        else:
+            print("Not found")
                 
         
 if __name__ == "__main__":
