@@ -10,3 +10,5 @@ pip install qdarkstyle
 pip uninstall pyqt5
 pip install pyqt5 
 If error persists, maybe uninstall pyqt5-tools
+### MySQL.connector
+pip install mysql-connector-python
