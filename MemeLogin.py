@@ -29,30 +29,31 @@ class LoginWindow(object):
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(50, 70, 71, 16))
-        self.label.setObjectName("label")
-        self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(50, 100, 71, 20))
-        self.label_2.setObjectName("label_2")
-        self.Username_lineEdit = QtWidgets.QLineEdit(self.centralwidget)
-        self.Username_lineEdit.setGeometry(QtCore.QRect(130, 70, 261, 22))
-        self.Username_lineEdit.setStyleSheet("")
-        self.Username_lineEdit.setObjectName("Username_lineEdit")
-        self.password_LineEdit = QtWidgets.QLineEdit(self.centralwidget)
-        self.password_LineEdit.setGeometry(QtCore.QRect(130, 100, 261, 22))
-        self.password_LineEdit.setObjectName("password_LineEdit")
-        self.Login_Button = QtWidgets.QPushButton(self.centralwidget)
-        self.Login_Button.setGeometry(QtCore.QRect(250, 160, 93, 28))
-        self.Login_Button.setObjectName("Login_Button")
-        self.SignUp_Button = QtWidgets.QPushButton(self.centralwidget)
-        self.SignUp_Button.setGeometry(QtCore.QRect(130, 160, 93, 28))
-        self.SignUp_Button.setObjectName("SignUp_Button")
-        self.label_4 = QtWidgets.QLabel(self.centralwidget)
-        self.label_4.setGeometry(QtCore.QRect(394, 0, 71, 71))
-        self.label_4.setText("")
-        self.label_4.setPixmap(QtGui.QPixmap(":/newPrefix/icon.png"))
-        self.label_4.setObjectName("label_4")
+        self.username_label = QtWidgets.QLabel(self.centralwidget)
+        self.username_label.setGeometry(QtCore.QRect(50, 70, 71, 16))
+        self.username_label.setObjectName("username_label")
+        self.password_label = QtWidgets.QLabel(self.centralwidget)
+        self.password_label.setGeometry(QtCore.QRect(50, 100, 71, 20))
+        self.password_label.setObjectName("password_label")
+        self.username_edit = QtWidgets.QLineEdit(self.centralwidget)
+        self.username_edit.setGeometry(QtCore.QRect(130, 70, 261, 22))
+        self.username_edit.setStyleSheet("")
+        self.username_edit.setObjectName("username_edit")
+        self.password_edit = QtWidgets.QLineEdit(self.centralwidget)
+        self.password_edit.setGeometry(QtCore.QRect(130, 100, 261, 22))
+        self.password_edit.setObjectName("password_edit")
+        self.password_edit.setEchoMode(QtWidgets.QLineEdit.Password);
+        self.login_button = QtWidgets.QPushButton(self.centralwidget)
+        self.login_button.setGeometry(QtCore.QRect(250, 160, 93, 28))
+        self.login_button.setObjectName("login_button")
+        self.signup_button = QtWidgets.QPushButton(self.centralwidget)
+        self.signup_button.setGeometry(QtCore.QRect(130, 160, 93, 28))
+        self.signup_button.setObjectName("signup_button")
+        self.username_label_4 = QtWidgets.QLabel(self.centralwidget)
+        self.username_label_4.setGeometry(QtCore.QRect(394, 0, 71, 71))
+        self.username_label_4.setText("")
+        self.username_label_4.setPixmap(QtGui.QPixmap(":/newPrefix/icon.png"))
+        self.username_label_4.setObjectName("username_label_4")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -61,15 +62,15 @@ class LoginWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        self.SignUp_Button.clicked.connect(self.signup)
-        self.Login_Button.clicked.connect(self.login)
+        self.signup_button.clicked.connect(self.signup)
+        self.login_button.clicked.connect(self.login)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "Log In - Meme Stock Market", None, -1))
-        self.label.setText(QtWidgets.QApplication.translate("MainWindow", "Username:", None, -1))
-        self.label_2.setText(QtWidgets.QApplication.translate("MainWindow", "Password:", None, -1))
-        self.Login_Button.setText(QtWidgets.QApplication.translate("MainWindow", "Login", None, -1))
-        self.SignUp_Button.setText(QtWidgets.QApplication.translate("MainWindow", "Sign Up", None, -1))
+        self.username_label.setText(QtWidgets.QApplication.translate("MainWindow", "Username:", None, -1))
+        self.password_label.setText(QtWidgets.QApplication.translate("MainWindow", "Password:", None, -1))
+        self.login_button.setText(QtWidgets.QApplication.translate("MainWindow", "Login", None, -1))
+        self.signup_button.setText(QtWidgets.QApplication.translate("MainWindow", "Sign Up", None, -1))
 
     def signup(self):
         self.window = QtWidgets.QMainWindow()
@@ -78,8 +79,8 @@ class LoginWindow(object):
         self.window.show()
 
     def login(self):
-        Username = self.Username_lineEdit.text()
-        Password = self.password_LineEdit.text()
+        Username = self.username_edit.text()
+        Password = self.password_edit.text()
 
         mydb = mysql.connector.connect(
             host='localhost',
@@ -102,8 +103,8 @@ class LoginWindow(object):
             self.window.show()
         else:
             print("Not found")
-                
-        
+
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     app.setWindowIcon(QtGui.QIcon("UI_Folder/icon.png"))

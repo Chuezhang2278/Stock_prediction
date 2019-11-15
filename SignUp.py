@@ -98,14 +98,14 @@ class SignUpWindow(object):
         self.maleRadio.setText(QtWidgets.QApplication.translate("MainWindow", "Male", None, -1))
         self.femaleRadio.setText(QtWidgets.QApplication.translate("MainWindow", "Female", None, -1))
         self.nonbinaryradio.setText(QtWidgets.QApplication.translate("MainWindow", "Non-Binary", None, -1))
-    
+
     def add_user(self):
         mydb = mysql.connector.connect(
             host='localhost',
             user='root',
             password='123password',
             database='memestock')
-        
+
         Fullname = self.Name_lineEdit.text()
         SSN = self.SSN_lineEdit.text()
         User = self.User_lineEdit.text()
