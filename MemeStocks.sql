@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`SSN`),
   UNIQUE KEY `email_unique` (`Email`),
   UNIQUE KEY `user_unique` (`Username`),
-  CONSTRAINT `CONSTRAINT_1` CHECK (`SSN` > 99999999),
+  CONSTRAINT `ssn_9_digits` CHECK (`SSN` > 99999999),
   CONSTRAINT `username_nospace` CHECK (`Username`  not like '% %'),
   CONSTRAINT `password_nospace` CHECK (`Pass`  not like '% %'),
   CONSTRAINT `minimum_length_pass_ck` CHECK (char_length(`Pass`) > 8),
