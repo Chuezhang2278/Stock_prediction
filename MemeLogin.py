@@ -73,14 +73,15 @@ class LoginWindow(object):
         self.signup_button.setText(QtWidgets.QApplication.translate("MainWindow", "Sign Up", None, -1))
 
     def signup(self):
-        self.window = QtWidgets.QMainWindow()
+        self.SignUpWindow = QtWidgets.QMainWindow()
         self.ui = SignUpWindow()
-        self.ui.setupUi(self.window)
-        self.window.show()
+        self.ui.setupUi(self.SignUpWindow)
+        self.SignUpWindow.show()
+        MainWindow.hide()
 
     def login(self):
-        Username = self.username_edit.text()
-        Password = self.password_edit.text()
+        username_text = self.username_edit.text()
+        password_text = self.password_edit.text()
 
         mydb = mysql.connector.connect(
             host='localhost',
@@ -92,17 +93,17 @@ class LoginWindow(object):
         # check how this library does user input
         # check how string equality work
 
-        mycursor.execute("SELECT Username,Pass FROM users WHERE Username = %s AND Pass = %s", (Username, Password) )
+        mycursor.execute("SELECT username, pass FROM users WHERE username = %s AND pass = %s", (username_text, password_text))
         usercheck = mycursor.fetchone()
-        if(usercheck[0] == Username and usercheck[1] == Password):
-            print("Passed")
-            self.window = QtWidgets.QMainWindow()
+        if(usercheck != None and usercheck[0] == username_text and usercheck[1] == password_text):
+            print("Login Success!")
+            self.SignUpWindow = QtWidgets.QMainWindow()
             self.ui = MemeWindow()
-            self.ui.setupUi(self.window)
+            self.ui.setupUi(self.SignUpWindow)
             MainWindow.hide()
-            self.window.show()
+            self.SignUpWindow.show()
         else:
-            print("Not found")
+            print("Login Failed!")
 
 
 if __name__ == "__main__":
