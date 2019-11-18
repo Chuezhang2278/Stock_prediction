@@ -9,6 +9,7 @@
 # WARNING! All changes made in this file will be lost!
 import sys, icon_rc, qdarkstyle, mysql.connector
 from PySide2 import QtCore, QtGui, QtWidgets
+from ErrorWindow import ErrorWindow
 
 class SignUpWindow(object):
     def __init__(self):
@@ -92,6 +93,12 @@ class SignUpWindow(object):
 
         self.finish_button.clicked.connect(self.add_user)
 
+    def show_error(self):
+        self.ErrorWindow = QtWidgets.QMainWindow()
+        self.ui = ErrorWindow()
+        self.ui.setupUi(self.ErrorWindow)
+        self.ErrorWindow.show()
+
     def retranslateUi(self, MainWindow):
         self.MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "Sign Up - Meme Stock Market", None, -1))
         self.fullname_label.setText(QtWidgets.QApplication.translate("MainWindow", "Full Name:", None, -1))
@@ -132,17 +139,18 @@ class SignUpWindow(object):
             mycursor.execute(add_user, data_user)
         except mysql.connector.Error as err:
             print("Something went wrong: {}".format(err))
+            self.show_error()
         else:
             self.MainWindow.hide()
             self.LoginWindow.show()
             mydb.commit()
 
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    app.setWindowIcon(QtGui.QIcon("UI_Folder/icon.png"))
-    MainWindow = QtWidgets.QMainWindow()
-    ui = SignUpWindow()
-    ui.setupUi(MainWindow, None)
-    app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
-    MainWindow.show()
-    sys.exit(app.exec_())
+#if __name__ == "__main__":
+#    app = QtWidgets.QApplication(sys.argv)
+#    app.setWindowIcon(QtGui.QIcon("UI_Folder/icon.png"))
+#    MainWindow = QtWidgets.QMainWindow()
+#    ui = SignUpWindow()
+#    ui.setupUi(MainWindow, None)
+#    app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
+#    MainWindow.show()
+#    sys.exit(app.exec_())
