@@ -3,17 +3,15 @@
 # Form implementation generated from reading ui file 'Error.ui',
 # licensing of 'Error.ui' applies.
 #
-# Created: Sun Nov 17 21:45:30 2019
+# Created: Sun Nov 17 23:07:52 2019
 #      by: pyside2-uic  running on PySide2 5.13.2
 #
 # WARNING! All changes made in this file will be lost!
 
-import sys, icon_rc, qdarkstyle
 from PySide2 import QtCore, QtGui, QtWidgets
 
-class ErrorWindow(object):
+class Ui_CurrentWindow(object):
     def setupUi(self, CurrentWindow):
-        self.CurrentWindow = CurrentWindow
         CurrentWindow.setObjectName("CurrentWindow")
         CurrentWindow.resize(482, 444)
         CurrentWindow.setMinimumSize(QtCore.QSize(482, 444))
@@ -79,7 +77,6 @@ class ErrorWindow(object):
         font.setPointSize(9)
         self.close_button.setFont(font)
         self.close_button.setObjectName("close_button")
-        self.close_button.clicked.connect(self.close_window)
         self.label_4 = QtWidgets.QLabel(CurrentWindow)
         self.label_4.setGeometry(QtCore.QRect(415, 0, 71, 71))
         self.label_4.setText("")
@@ -107,15 +104,4 @@ class ErrorWindow(object):
         self.close_button.setText(QtWidgets.QApplication.translate("CurrentWindow", "Close", None, -1))
         self.line5_2.setText(QtWidgets.QApplication.translate("CurrentWindow", "Username and password may not have spaces", None, -1))
 
-    def close_window(self):
-        self.CurrentWindow.hide()
-
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    app.setWindowIcon(QtGui.QIcon("UI_Folder/icon.png"))
-    MainWindow = QtWidgets.QMainWindow()
-    ui = ErrorWindow()
-    ui.setupUi(MainWindow)
-    app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
-    MainWindow.show()
-    sys.exit(app.exec_())
+import icon_rc
