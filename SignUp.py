@@ -11,20 +11,26 @@ import sys, icon_rc, qdarkstyle, mysql.connector
 from PySide2 import QtCore, QtGui, QtWidgets
 
 class SignUpWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(446, 306)
+    def __init__(self):
+        self.MainWindow = None;
+        self.LoginWindow = None;
+
+    def setupUi(self, MainWindow, LoginWindow):
+        self.LoginWindow = LoginWindow
+        self.MainWindow = MainWindow
+        self.MainWindow.setObjectName("MainWindow")
+        self.MainWindow.resize(446, 306)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
-        MainWindow.setSizePolicy(sizePolicy)
-        MainWindow.setMinimumSize(QtCore.QSize(446, 306))
-        MainWindow.setMaximumSize(QtCore.QSize(446, 306))
+        self.MainWindow.setSizePolicy(sizePolicy)
+        self.MainWindow.setMinimumSize(QtCore.QSize(446, 306))
+        self.MainWindow.setMaximumSize(QtCore.QSize(446, 306))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/newPrefix/icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        MainWindow.setWindowIcon(icon)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.MainWindow.setWindowIcon(icon)
+        self.centralwidget = QtWidgets.QWidget(self.MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.fullname_label = QtWidgets.QLabel(self.centralwidget)
         self.fullname_label.setGeometry(QtCore.QRect(60, 60, 71, 16))
@@ -76,18 +82,18 @@ class SignUpWindow(object):
         self.label_8.setText("")
         self.label_8.setPixmap(QtGui.QPixmap(":/newPrefix/icon.png"))
         self.label_8.setObjectName("label_8")
-        MainWindow.setCentralWidget(self.centralwidget)
+        self.MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        self.MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(self.MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(self.MainWindow)
 
         self.finish_button.clicked.connect(self.add_user)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "Sign Up - Meme Stock Market", None, -1))
+        self.MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "Sign Up - Meme Stock Market", None, -1))
         self.fullname_label.setText(QtWidgets.QApplication.translate("MainWindow", "Full Name:", None, -1))
         self.ssn_label.setText(QtWidgets.QApplication.translate("MainWindow", "SSN:", None, -1))
         self.username_label.setText(QtWidgets.QApplication.translate("MainWindow", "Username:", None, -1))
@@ -98,6 +104,7 @@ class SignUpWindow(object):
         self.maleRadio.setText(QtWidgets.QApplication.translate("MainWindow", "Male", None, -1))
         self.femaleRadio.setText(QtWidgets.QApplication.translate("MainWindow", "Female", None, -1))
         self.nonbinaryradio.setText(QtWidgets.QApplication.translate("MainWindow", "Non-Binary", None, -1))
+
 
     def add_user(self):
         mydb = mysql.connector.connect(
@@ -125,14 +132,17 @@ class SignUpWindow(object):
             mycursor.execute(add_user, data_user)
         except mysql.connector.Error as err:
             print("Something went wrong: {}".format(err))
-        mydb.commit()
+        else:
+            self.MainWindow.hide()
+            self.LoginWindow.show()
+            mydb.commit()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     app.setWindowIcon(QtGui.QIcon("UI_Folder/icon.png"))
     MainWindow = QtWidgets.QMainWindow()
     ui = SignUpWindow()
-    ui.setupUi(MainWindow)
+    ui.setupUi(MainWindow, None)
     app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     MainWindow.show()
     sys.exit(app.exec_())

@@ -9,8 +9,8 @@
 # WARNING! All changes made in this file will be lost!
 import sys, icon_rc, qdarkstyle, mysql.connector
 from PySide2 import QtCore, QtGui, QtWidgets
-from SignUp import SignUpWindow
 from MainWindow import MemeWindow
+from SignUp import SignUpWindow
 
 class LoginWindow(object):
     def setupUi(self, MainWindow):
@@ -75,7 +75,7 @@ class LoginWindow(object):
     def signup(self):
         self.SignUpWindow = QtWidgets.QMainWindow()
         self.ui = SignUpWindow()
-        self.ui.setupUi(self.SignUpWindow)
+        self.ui.setupUi(self.SignUpWindow, MainWindow)
         self.SignUpWindow.show()
         MainWindow.hide()
 
@@ -97,11 +97,11 @@ class LoginWindow(object):
         usercheck = mycursor.fetchone()
         if(usercheck != None and usercheck[0] == username_text and usercheck[1] == password_text):
             print("Login Success!")
-            self.SignUpWindow = QtWidgets.QMainWindow()
+            self.MemeWindow = QtWidgets.QMainWindow()
             self.ui = MemeWindow()
-            self.ui.setupUi(self.SignUpWindow)
+            self.ui.setupUi(self.MemeWindow)
             MainWindow.hide()
-            self.SignUpWindow.show()
+            self.MemeWindow.show()
         else:
             print("Login Failed!")
 
