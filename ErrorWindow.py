@@ -97,7 +97,7 @@ class ErrorWindow(object):
         QtCore.QMetaObject.connectSlotsByName(CurrentWindow)
 
     def retranslateUi(self, CurrentWindow):
-        CurrentWindow.setWindowTitle(QtWidgets.QApplication.translate("CurrentWindow", "Dialog", None, -1))
+        CurrentWindow.setWindowTitle(QtWidgets.QApplication.translate("CurrentWindow", "Sign Up Error - Meme Stock Market", None, -1))
         self.error_label.setText(QtWidgets.QApplication.translate("CurrentWindow", "Error", None, -1))
         self.line1.setText(QtWidgets.QApplication.translate("CurrentWindow", "E-mail must contain @ and .com or .edu at the end", None, -1))
         self.line2.setText(QtWidgets.QApplication.translate("CurrentWindow", "Social security number must be 9 digits", None, -1))

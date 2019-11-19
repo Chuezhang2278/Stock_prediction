@@ -13,21 +13,21 @@ from MainWindow import MemeWindow
 from SignUp import SignUpWindow
 
 class LoginWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.setEnabled(True)
-        MainWindow.resize(461, 253)
+    def setupUi(self, CurrentWindow):
+        CurrentWindow.setObjectName("CurrentWindow")
+        CurrentWindow.setEnabled(True)
+        CurrentWindow.resize(461, 253)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
-        MainWindow.setSizePolicy(sizePolicy)
-        MainWindow.setMinimumSize(QtCore.QSize(461, 253))
-        MainWindow.setMaximumSize(QtCore.QSize(461, 253))
+        sizePolicy.setHeightForWidth(CurrentWindow.sizePolicy().hasHeightForWidth())
+        CurrentWindow.setSizePolicy(sizePolicy)
+        CurrentWindow.setMinimumSize(QtCore.QSize(461, 253))
+        CurrentWindow.setMaximumSize(QtCore.QSize(461, 253))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/newPrefix/icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        MainWindow.setWindowIcon(icon)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        CurrentWindow.setWindowIcon(icon)
+        self.centralwidget = QtWidgets.QWidget(CurrentWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.username_label = QtWidgets.QLabel(self.centralwidget)
         self.username_label.setGeometry(QtCore.QRect(50, 70, 71, 16))
@@ -54,30 +54,30 @@ class LoginWindow(object):
         self.username_label_4.setText("")
         self.username_label_4.setPixmap(QtGui.QPixmap(":/newPrefix/icon.png"))
         self.username_label_4.setObjectName("username_label_4")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        CurrentWindow.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(CurrentWindow)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        CurrentWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(CurrentWindow)
+        QtCore.QMetaObject.connectSlotsByName(CurrentWindow)
 
         self.signup_button.clicked.connect(self.signup)
         self.login_button.clicked.connect(self.login)
 
-    def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "Log In - Meme Stock Market", None, -1))
-        self.username_label.setText(QtWidgets.QApplication.translate("MainWindow", "Username:", None, -1))
-        self.password_label.setText(QtWidgets.QApplication.translate("MainWindow", "Password:", None, -1))
-        self.login_button.setText(QtWidgets.QApplication.translate("MainWindow", "Login", None, -1))
-        self.signup_button.setText(QtWidgets.QApplication.translate("MainWindow", "Sign Up", None, -1))
+    def retranslateUi(self, CurrentWindow):
+        CurrentWindow.setWindowTitle(QtWidgets.QApplication.translate("CurrentWindow", "Log In - Meme Stock Market", None, -1))
+        self.username_label.setText(QtWidgets.QApplication.translate("CurrentWindow", "Username:", None, -1))
+        self.password_label.setText(QtWidgets.QApplication.translate("CurrentWindow", "Password:", None, -1))
+        self.login_button.setText(QtWidgets.QApplication.translate("CurrentWindow", "Login", None, -1))
+        self.signup_button.setText(QtWidgets.QApplication.translate("CurrentWindow", "Sign Up", None, -1))
 
     def signup(self):
         self.SignUpWindow = QtWidgets.QMainWindow()
         self.ui = SignUpWindow()
-        self.ui.setupUi(self.SignUpWindow, MainWindow)
+        self.ui.setupUi(self.SignUpWindow, CurrentWindow)
         self.SignUpWindow.show()
-        MainWindow.hide()
+        CurrentWindow.hide()
 
     def login(self):
         username_text = self.username_edit.text()
@@ -100,7 +100,7 @@ class LoginWindow(object):
             self.MemeWindow = QtWidgets.QMainWindow()
             self.ui = MemeWindow()
             self.ui.setupUi(self.MemeWindow)
-            MainWindow.hide()
+            CurrentWindow.hide()
             self.MemeWindow.show()
         else:
             print("Login Failed!")
@@ -109,9 +109,9 @@ class LoginWindow(object):
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     app.setWindowIcon(QtGui.QIcon("UI_Folder/icon.png"))
-    MainWindow = QtWidgets.QMainWindow()
+    CurrentWindow = QtWidgets.QMainWindow()
     ui = LoginWindow()
-    ui.setupUi(MainWindow)
+    ui.setupUi(CurrentWindow)
     app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
-    MainWindow.show()
+    CurrentWindow.show()
     sys.exit(app.exec_())
