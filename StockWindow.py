@@ -10,7 +10,7 @@
 
 from PySide2 import QtCore, QtGui, QtWidgets
 
-class TestWindow(object):
+class StockWindow(object):
     def setupUi(self, CurrentWindow):
         self.CurrentWindow = CurrentWindow
         CurrentWindow.setObjectName("CurrentWindow")
@@ -31,7 +31,7 @@ class TestWindow(object):
         QtCore.QMetaObject.connectSlotsByName(CurrentWindow)
 
     def retranslateUi(self, CurrentWindow):
-        CurrentWindow.setWindowTitle(QtWidgets.QApplication.translate("CurrentWindow", "Test Window - Meme Stock Market", None, -1))
+        CurrentWindow.setWindowTitle(QtWidgets.QApplication.translate("CurrentWindow", "Stock Window - Meme Stock Market", None, -1))
         self.test_label.setText(QtWidgets.QApplication.translate("CurrentWindow", "TEST", None, -1))
         self.close_button.setText(QtWidgets.QApplication.translate("CurrentWindow", "Close", None, -1))
 
@@ -39,5 +39,5 @@ class TestWindow(object):
         self.ParentWindow = ParentWindow
 
     def return_to_parent(self):
-        self.CurrentWindow.hide()
         self.ParentWindow.show()
+        self.CurrentWindow.hide()

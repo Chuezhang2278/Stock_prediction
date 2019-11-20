@@ -6,9 +6,12 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-import sys, icon_rc, qdarkstyle
+import sys, icon_rc, qdarkstyle, datetime
+import pandas as pd
+import matplotlib.pyplot as plt
+from pandas_datareader import data as data, wb
 from PySide2 import QtCore, QtGui, QtWidgets
-from Test import TestWindow
+from StockWindow import StockWindow
 
 class MemeWindow(object):
     def setupUi(self, CurrentWindow):
@@ -44,15 +47,23 @@ class MemeWindow(object):
         self.test_button.setText(QtWidgets.QApplication.translate("CurrentWindow", "Test", None, -1))
 
     def test_click(self):
-        self.TestWindow = QtWidgets.QMainWindow()
-        self.temp = TestWindow()
-        self.temp.connectWindows(self.CurrentWindow)
-        self.temp.setupUi(self.TestWindow)
-        self.TestWindow.show()
-        self.CurrentWindow.hide()
+        end = datetime.datetime.today()
+        start = end + datetime.timedelta(days=-365)
+        df = data.DataReader("AMD", 'yahoo', start, end)
+        print (df.to_string())
+        df.index=pd.to_datetime(df.index)
+        df['High'].plot(cmap='RdBu', xlim=[pd.Timestamp(start), pd.Timestamp(end)])
+        plt.suptitle("AMD Stocks: from " + start.strftime('%m/%d/%Y') + " to " + end.strftime('%m/%d/%Y'))
+        plt.ylabel("High (USD)", fontdict=None, labelpad=None)
+        plt.show()
+        #self.StockWindow = QtWidgets.QMainWindow()
+        #self.temp = StockWindow()
+        #self.temp.connectWindows(self.CurrentWindow)
+        #self.temp.setupUi(self.StockWindow)
+        #self.StockWindow.show()
+        #self.CurrentWindow.hide()
 
 if __name__ == "__main__":
-    import sys
     app = QtWidgets.QApplication(sys.argv)
     CurrentWindow = QtWidgets.QMainWindow()
     ui = MemeWindow()
