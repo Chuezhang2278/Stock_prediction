@@ -8,7 +8,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 import sys, icon_rc, qdarkstyle, mysql.connector
-from PySide2 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets
 from MainWindow import MemeWindow
 from SignUp import SignUpWindow
 
@@ -66,16 +66,18 @@ class LoginWindow(object):
         self.login_button.clicked.connect(self.login)
 
     def retranslateUi(self, CurrentWindow):
-        CurrentWindow.setWindowTitle(QtWidgets.QApplication.translate("CurrentWindow", "Log In - Meme Stock Market", None, -1))
+        CurrentWindow.setWindowTitle(QtWidgets.QApplication.translate("CurrentWindow", "Log In", None, -1))
         self.username_label.setText(QtWidgets.QApplication.translate("CurrentWindow", "Username:", None, -1))
         self.password_label.setText(QtWidgets.QApplication.translate("CurrentWindow", "Password:", None, -1))
         self.login_button.setText(QtWidgets.QApplication.translate("CurrentWindow", "Login", None, -1))
         self.signup_button.setText(QtWidgets.QApplication.translate("CurrentWindow", "Sign Up", None, -1))
 
     def signup(self):
+        print("called1")
         self.SignUpWindow = QtWidgets.QMainWindow()
         self.ui = SignUpWindow()
         self.ui.setupUi(self.SignUpWindow, CurrentWindow)
+        print("called")
         self.SignUpWindow.show()
         CurrentWindow.hide()
 
@@ -109,9 +111,9 @@ class LoginWindow(object):
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     app.setWindowIcon(QtGui.QIcon("UI_Folder/icon.png"))
+    app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     CurrentWindow = QtWidgets.QMainWindow()
     ui = LoginWindow()
     ui.setupUi(CurrentWindow)
-    app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     CurrentWindow.show()
     sys.exit(app.exec_())

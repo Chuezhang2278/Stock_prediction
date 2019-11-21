@@ -9,7 +9,7 @@
 # WARNING! All changes made in this file will be lost!
 
 import sys, icon_rc, qdarkstyle
-from PySide2 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 class ErrorWindow(object):
     def setupUi(self, CurrentWindow):
@@ -97,7 +97,7 @@ class ErrorWindow(object):
         QtCore.QMetaObject.connectSlotsByName(CurrentWindow)
 
     def retranslateUi(self, CurrentWindow):
-        CurrentWindow.setWindowTitle(QtWidgets.QApplication.translate("CurrentWindow", "Sign Up Error - Meme Stock Market", None, -1))
+        CurrentWindow.setWindowTitle(QtWidgets.QApplication.translate("CurrentWindow", "Sign Up Error", None, -1))
         self.error_label.setText(QtWidgets.QApplication.translate("CurrentWindow", "Error", None, -1))
         self.line1.setText(QtWidgets.QApplication.translate("CurrentWindow", "E-mail must contain @ and .com or .edu at the end", None, -1))
         self.line2.setText(QtWidgets.QApplication.translate("CurrentWindow", "Social security number must be 9 digits", None, -1))

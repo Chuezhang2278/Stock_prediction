@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>StockWindow</class>
+ <widget class="QDialog" name="StockWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1097</width>
+    <height>1145</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QPushButton" name="seven_days">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>590</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>7 Days</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="icon">
+   <property name="geometry">
+    <rect>
+     <x>1030</x>
+     <y>0</y>
+     <width>71</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="icon.qrc">:/newPrefix/icon.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="two_weeks">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>590</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>2 Weeks</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="one_month">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>590</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>1 Month</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="six_months">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>590</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>6 Months</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="three_months">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>590</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>3 Months</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="one_year">
+   <property name="geometry">
+    <rect>
+     <x>790</x>
+     <y>590</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>1 Year</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="three_year">
+   <property name="geometry">
+    <rect>
+     <x>940</x>
+     <y>590</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>3 Years</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="stock_name">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>670</y>
+     <width>1031</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #32414b; border-radius: 5px;</string>
+   </property>
+   <property name="text">
+    <string>Stock Name Today (5 Shares)</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="high_label">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>840</y>
+     <width>490</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #445661; border-radius: 5px;</string>
+   </property>
+   <property name="text">
+    <string>High:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="low_label">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>910</y>
+     <width>490</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #445661; border-radius: 5px;</string>
+   </property>
+   <property name="text">
+    <string>Low:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="open_label">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>840</y>
+     <width>490</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #445661; border-radius: 5px;</string>
+   </property>
+   <property name="text">
+    <string>Open:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="close_label">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>910</y>
+     <width>490</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #445661; border-radius: 5px;</string>
+   </property>
+   <property name="text">
+    <string>Close:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="volumns_trade_label">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>770</y>
+     <width>490</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #445661; border-radius: 5px;</string>
+   </property>
+   <property name="text">
+    <string>Volumns Traded:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="change_label">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>770</y>
+     <width>490</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #445661; border-radius: 5px;</string>
+   </property>
+   <property name="text">
+    <string>% CHANGE, +- $$</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="buy_edit">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>1030</y>
+     <width>131</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="back_button">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>20</y>
+     <width>111</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Back</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="buy_button">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>1030</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Buy</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="cost_label">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>1030</y>
+     <width>411</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>It'll cost $100</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="sell_button">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>1080</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Sell</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="cost_label_2">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>1080</y>
+     <width>411</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>You will earn $100</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="sell_edit">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>1080</y>
+     <width>131</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>660</y>
+     <width>1051</width>
+     <height>471</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #373d41; border-radius: 5px;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="indent">
+    <number>-1</number>
+   </property>
+  </widget>
+  <zorder>label</zorder>
+  <zorder>seven_days</zorder>
+  <zorder>icon</zorder>
+  <zorder>two_weeks</zorder>
+  <zorder>one_month</zorder>
+  <zorder>six_months</zorder>
+  <zorder>three_months</zorder>
+  <zorder>one_year</zorder>
+  <zorder>three_year</zorder>
+  <zorder>stock_name</zorder>
+  <zorder>high_label</zorder>
+  <zorder>low_label</zorder>
+  <zorder>open_label</zorder>
+  <zorder>close_label</zorder>
+  <zorder>volumns_trade_label</zorder>
+  <zorder>change_label</zorder>
+  <zorder>buy_edit</zorder>
+  <zorder>back_button</zorder>
+  <zorder>buy_button</zorder>
+  <zorder>cost_label</zorder>
+  <zorder>sell_button</zorder>
+  <zorder>cost_label_2</zorder>
+  <zorder>sell_edit</zorder>
+ </widget>
+ <resources>
+  <include location="icon.qrc"/>
+ </resources>
+ <connections/>
+</ui>
