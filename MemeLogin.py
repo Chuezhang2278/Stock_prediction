@@ -1,12 +1,3 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'MemeLogin.ui',
-# licensing of 'MemeLogin.ui' applies.
-#
-# Created: Thu Nov  7 23:03:19 2019
-#      by: pyside2-uic  running on PySide2 5.13.2
-#
-# WARNING! All changes made in this file will be lost!
 import sys, icon_rc, qdarkstyle, mysql.connector
 from PyQt5 import QtCore, QtGui, QtWidgets
 from MainWindow import MemeWindow
@@ -92,8 +83,6 @@ class LoginWindow(object):
             database='memestock')
 
         mycursor = mydb.cursor()
-        # check how this library does user input
-        # check how string equality work
 
         mycursor.execute("SELECT username, pass FROM users WHERE username = %s AND pass = %s", (username_text, password_text))
         usercheck = mycursor.fetchone()
