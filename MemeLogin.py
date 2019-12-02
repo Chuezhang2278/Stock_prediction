@@ -80,7 +80,7 @@ class LoginWindow(object):
             host='localhost',
             user='root',
             password='123password',
-            database='memestock')
+            database='stockmarket')
 
         mycursor = mydb.cursor()
 

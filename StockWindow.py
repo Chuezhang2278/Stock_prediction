@@ -8,7 +8,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-import sys, icon_rc, qdarkstyle, datetime
+import sys, icon_rc, qdarkstyle, datetime, mysql.connector, DatabaseConnect as db
 import pandas as pd
 import matplotlib.pyplot as plt
 import pyqtgraph as pg
@@ -17,10 +17,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from pandas_datareader import data as data, wb
 
 class StockWindow(object):
-    def __init__(self, name, shares):
+    def __init__(self, name, shares, ssn):
         self.stock_name = name
         self.shares = shares
         self.df = None
+        self.ssn = ssn
 
     def setupUi(self, CurrentWindow):
         self.CurrentWindow = CurrentWindow
@@ -107,8 +108,9 @@ class StockWindow(object):
         self.change_label.setObjectName("change_label")
         self.buy_edit = QtWidgets.QLineEdit(CurrentWindow)
         self.buy_edit.setGeometry(QtCore.QRect(430, 1030, 131, 31))
-        self.buy_edit.setText("")
+        self.buy_edit.setText("0")
         self.buy_edit.setObjectName("buy_edit")
+        self.buy_edit.setValidator(QtGui.QIntValidator())
         self.back_button = QtWidgets.QPushButton(CurrentWindow)
         self.back_button.setGeometry(QtCore.QRect(40, 20, 111, 41))
         font = QtGui.QFont()
@@ -130,8 +132,9 @@ class StockWindow(object):
         self.sell_button.setObjectName("sell_button")
         self.sell_edit = QtWidgets.QLineEdit(CurrentWindow)
         self.sell_edit.setGeometry(QtCore.QRect(430, 1080, 131, 31))
-        self.sell_edit.setText("")
+        self.sell_edit.setText("0")
         self.sell_edit.setObjectName("sell_edit")
+        self.sell_edit.setValidator(QtGui.QIntValidator())
         self.background_label = QtWidgets.QLabel(CurrentWindow)
         self.background_label.setGeometry(QtCore.QRect(30, 660, 1051, 471))
         self.background_label.setStyleSheet("background-color: #2a373f; border-radius: 5px;")
@@ -149,6 +152,8 @@ class StockWindow(object):
         self.six_months.clicked.connect(self.six_months_clicked)
         self.one_year.clicked.connect(self.one_year_clicked)
         self.three_year.clicked.connect(self.three_year_clicked)
+        self.sell_button.clicked.connect(self.sell_stock)
+        self.buy_button.clicked.connect(self.buy_stock)
 
         self.retranslateUi(CurrentWindow)
         QtCore.QMetaObject.connectSlotsByName(CurrentWindow)
@@ -199,6 +204,50 @@ class StockWindow(object):
         self.graphicsView.setLabel("bottom", text="Dates")
         self.graphicsView.plot(df['High'])
         self.change_label_update(start, end)
+
+    def buy_stock(self):
+        value = self.df["High"].tail()[-1]
+        num = int(self.buy_edit.text())
+        db.mycursor.execute("SELECT balance FROM users WHERE ssn = %s", [self.ssn])
+        results = db.mycursor.fetchone()
+        curr_balance = results[0]
+        if num < 1:
+            print("User must enter a positive integer.")
+        elif num * value > curr_balance:
+            print("User does not have " + str(num * value) + " dollars.")
+        else:
+            print("User bought " + str(num) + " shares!")
+            print("Subtracted " + str(value * num) + " to the User's balance!")
+            self.shares += num
+            db.mycursor.execute("UPDATE portfolio SET volume = %s WHERE ssn = %s AND stockid = %s", (self.shares, self.ssn, self.stock_name))
+            new_balance = curr_balance - (value * num)
+            print("New balance is " + str(new_balance) + ".")
+            db.mycursor.execute("UPDATE users SET balance = %s WHERE ssn = %s", (float(new_balance), self.ssn))
+            db.mydb.commit()
+            self.stock_name_label_update()
+
+    def sell_stock(self):
+        value = self.df["High"].tail()[-1]
+        num = int(self.sell_edit.text())
+        if num < 1:
+            print("User must enter a positive integer.")
+        elif num > self.shares:
+            print("User does not have " + str(num) + " stocks to sell.")
+        else:
+            print("User sold " + str(num) + " shares!")
+            print("Added " + str(value * num) + " to the User's balance!")
+            self.shares -= num
+            # update number of volume
+            db.mycursor.execute("UPDATE portfolio SET volume = %s WHERE ssn = %s AND stockid = %s", (self.shares, self.ssn, self.stock_name))
+            # find current balance
+            db.mycursor.execute("SELECT balance FROM users WHERE ssn = %s", [self.ssn])
+            results = db.mycursor.fetchone()
+            new_balance = results[0] + (value * num)
+            print("New balance is " + str(new_balance) + ".")
+            # update new balance
+            db.mycursor.execute("UPDATE users SET balance = %s WHERE ssn = %s", (float(new_balance), self.ssn))
+            db.mydb.commit()
+            self.stock_name_label_update()
 
     def stock_name_label_update(self):
         self.stock_name_label.setText(str(self.stock_name) + " Share Prices (You own " + str(self.shares) +" shares)")
@@ -266,7 +315,7 @@ if __name__ == "__main__":
     app.setWindowIcon(QtGui.QIcon("UI_Folder/icon.png"))
     app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     CurrentWindow = QtWidgets.QMainWindow()
-    ui = StockWindow("AMD", 99)
+    ui = StockWindow("AAPL", 99, '123456789')
     ui.setupUi(CurrentWindow)
     CurrentWindow.show()
     sys.exit(app.exec_())

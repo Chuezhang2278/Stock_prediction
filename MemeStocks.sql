@@ -12,97 +12,68 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
--- Dumping database structure for memestock
-CREATE DATABASE IF NOT EXISTS `memestock` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `memestock`;
+-- Dumping database structure for stockmarket
+CREATE DATABASE IF NOT EXISTS `stockmarket` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `stockmarket`;
 
--- Dumping structure for table memestock.portfolio
+-- Dumping structure for table stockmarket.portfolio
 CREATE TABLE IF NOT EXISTS `portfolio` (
   `SSN` varchar(9) NOT NULL,
-  `StockID` int(11) NOT NULL DEFAULT 0,
-  `Volumn` int(11) NOT NULL DEFAULT 0,
-  `TotalValue` int(11) NOT NULL DEFAULT 0,
+  `StockID` varchar(20) NOT NULL DEFAULT '0',
+  `Volume` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`SSN`,`StockID`),
-  KEY `portfolio_stockid_ref_stocksid` (`StockID`),
-  CONSTRAINT `portfolio_ssn_ref_users_ssn` FOREIGN KEY (`SSN`) REFERENCES `users` (`SSN`),
-  CONSTRAINT `portfolio_stockid_ref_stocksid` FOREIGN KEY (`StockID`) REFERENCES `stocks` (`StockID`)
+  KEY `portfolio_stockid_ref_stocks_stockid` (`StockID`),
+  CONSTRAINT `portfolio_ssn_ref_users_ssn` FOREIGN KEY (`SSN`) REFERENCES `users` (`SSN`) ON UPDATE CASCADE,
+  CONSTRAINT `portfolio_stockid_ref_stocks_stockid` FOREIGN KEY (`StockID`) REFERENCES `stocks` (`StockID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table memestock.portfolio: ~2 rows (approximately)
+-- Dumping data for table stockmarket.portfolio: ~0 rows (approximately)
 /*!40000 ALTER TABLE `portfolio` DISABLE KEYS */;
-INSERT INTO `portfolio` (`SSN`, `StockID`, `Volumn`, `TotalValue`) VALUES
-	('123456789', 1010, 5, 1500),
-	('123456789', 1011, 10, 20000);
+INSERT INTO `portfolio` (`SSN`, `StockID`, `Volume`) VALUES
+	('123456789', 'AAPL', 1289);
 /*!40000 ALTER TABLE `portfolio` ENABLE KEYS */;
 
--- Dumping structure for table memestock.stocks
+-- Dumping structure for table stockmarket.stocks
 CREATE TABLE IF NOT EXISTS `stocks` (
-  `StockID` int(11) NOT NULL,
-  `Name` varchar(20) NOT NULL,
-  `Author` varchar(20) NOT NULL DEFAULT 'N/A',
-  `LaunchDate` date NOT NULL,
+  `StockID` varchar(20) NOT NULL DEFAULT '',
+  `Name` varchar(20) DEFAULT NULL,
+  `LaunchDate` date DEFAULT NULL,
   PRIMARY KEY (`StockID`),
   UNIQUE KEY `name_unique` (`Name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table memestock.stocks: ~2 rows (approximately)
+-- Dumping data for table stockmarket.stocks: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stocks` DISABLE KEYS */;
-INSERT INTO `stocks` (`StockID`, `Name`, `Author`, `LaunchDate`) VALUES
-	(1010, 'Doge', 'Homestar Runner', '2005-06-24'),
-	(1011, 'Kappa', 'Josh DeSeno', '2010-06-17');
+INSERT INTO `stocks` (`StockID`, `Name`, `LaunchDate`) VALUES
+	('AAPL', 'Apple', '2019-12-01');
 /*!40000 ALTER TABLE `stocks` ENABLE KEYS */;
 
--- Dumping structure for table memestock.stocks_price_history
-CREATE TABLE IF NOT EXISTS `stocks_price_history` (
-  `StockID` int(11) NOT NULL,
-  `Date` date NOT NULL,
-  `Open` int(11) NOT NULL DEFAULT 0,
-  `Close` int(11) NOT NULL DEFAULT 0,
-  `High` int(11) NOT NULL DEFAULT 0,
-  `Low` int(11) NOT NULL DEFAULT 0,
-  `VolumnsTraded` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`StockID`,`Date`),
-  CONSTRAINT `stockid_in_history_ref_stocks` FOREIGN KEY (`StockID`) REFERENCES `stocks` (`StockID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- Dumping data for table memestock.stocks_price_history: ~4 rows (approximately)
-/*!40000 ALTER TABLE `stocks_price_history` DISABLE KEYS */;
-INSERT INTO `stocks_price_history` (`StockID`, `Date`, `Open`, `Close`, `High`, `Low`, `VolumnsTraded`) VALUES
-	(1010, '2019-10-17', 200, 210, 250, 188, 10020310),
-	(1010, '2019-10-18', 240, 300, 340, 220, 44444444),
-	(1011, '2019-10-17', 420, 690, 750, 333, 83741927),
-	(1011, '2019-10-18', 720, 1473, 1887, 690, 341937861);
-/*!40000 ALTER TABLE `stocks_price_history` ENABLE KEYS */;
-
--- Dumping structure for table memestock.trades
+-- Dumping structure for table stockmarket.trades
 CREATE TABLE IF NOT EXISTS `trades` (
   `SSN` varchar(9) NOT NULL,
   `TradeID` int(11) NOT NULL DEFAULT 0,
-  `StockID` int(11) NOT NULL DEFAULT 0,
-  `Volumn` int(11) NOT NULL DEFAULT 0,
+  `StockID` varchar(20) NOT NULL DEFAULT '0',
+  `Volume` int(11) NOT NULL DEFAULT 0,
   `Date` date NOT NULL DEFAULT '0000-00-00',
   `PricePerShare` int(11) NOT NULL DEFAULT 0,
   `TotalCost` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`TradeID`,`SSN`),
   KEY `trades_ssn_ref_users_ssn` (`SSN`),
   KEY `trades_stockid_ref_stocks_stockid` (`StockID`),
-  CONSTRAINT `trades_ssn_ref_users_ssn` FOREIGN KEY (`SSN`) REFERENCES `users` (`SSN`),
-  CONSTRAINT `trades_stockid_ref_stocks_stockid` FOREIGN KEY (`StockID`) REFERENCES `stocks` (`StockID`)
+  CONSTRAINT `trades_ssn_ref_users_ssn` FOREIGN KEY (`SSN`) REFERENCES `users` (`SSN`) ON UPDATE CASCADE,
+  CONSTRAINT `trades_stockid_ref_stocks_stockid` FOREIGN KEY (`StockID`) REFERENCES `stocks` (`StockID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table memestock.trades: ~2 rows (approximately)
+-- Dumping data for table stockmarket.trades: ~0 rows (approximately)
 /*!40000 ALTER TABLE `trades` DISABLE KEYS */;
-INSERT INTO `trades` (`SSN`, `TradeID`, `StockID`, `Volumn`, `Date`, `PricePerShare`, `TotalCost`) VALUES
-	('123456789', 1, 1010, 10, '2019-10-17', 205, 1025),
-	('123456789', 2, 1011, 5, '2019-10-17', 750, 3750);
 /*!40000 ALTER TABLE `trades` ENABLE KEYS */;
 
--- Dumping structure for table memestock.users
+-- Dumping structure for table stockmarket.users
 CREATE TABLE IF NOT EXISTS `users` (
   `SSN` varchar(9) NOT NULL DEFAULT '',
   `Fullname` varchar(256) NOT NULL,
   `Username` varchar(256) NOT NULL,
-  `Balance` int(11) NOT NULL DEFAULT 0,
+  `Balance` double NOT NULL DEFAULT 0,
   `Pass` varchar(256) NOT NULL,
   `Email` varchar(256) NOT NULL,
   `Gender` varchar(10) NOT NULL,
@@ -117,13 +88,13 @@ CREATE TABLE IF NOT EXISTS `users` (
   CONSTRAINT `SSN_numbers_only` CHECK (`SSN` regexp '^[0-9]+$')
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='-ssn primary key\r\n-email unique, email must contain ''@'' and ends with ''.com'' or ''.edu''\r\n-username unique, no space allowed\r\n-check ssn must be 9 digits\r\n-password > 8 chars, no space allowed';
 
--- Dumping data for table memestock.users: ~1 rows (approximately)
+-- Dumping data for table stockmarket.users: ~2 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`SSN`, `Fullname`, `Username`, `Balance`, `Pass`, `Email`, `Gender`) VALUES
-	('123456789', 'Jia Ming Ma', 'jma8774', 21500, 'jma8774jma8774', 'jma8774@gmail.com', 'Male');
+	('123456789', 'Jia Ming Ma', 'jma8774', 21232, 'jma8774jma8774', 'jma8774@gmail.com', 'Male'),
+	('987654321', 'TESTESTTEST', 'TESTESTTEST', 0, 'TESTESTTEST', 'TESTESTTEST@TESTESTTEST.com', 'Non-Binary');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-users
