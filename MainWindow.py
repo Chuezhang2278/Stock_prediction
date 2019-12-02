@@ -6,7 +6,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-import sys, icon_rc, qdarkstyle, datetime
+import sys, icon_rc, qdarkstyle, datetime, mysql.connector, DatabaseConnect as db
 from PyQt5 import QtCore, QtGui, QtWidgets
 from StockWindow import StockWindow
 from pandas_datareader import data as data, wb
@@ -45,12 +45,30 @@ class MemeWindow(object):
         font.setWeight(75)
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
-        self.trans_listView = QtWidgets.QListView(self.tab_2)
+        self.trans_listView = QtWidgets.QListWidget(self.tab_2)
         self.trans_listView.setGeometry(QtCore.QRect(35, 90, 321, 380))
         self.trans_listView.setStyleSheet("")
         self.trans_listView.setFrameShape(QtWidgets.QFrame.HLine)
         self.trans_listView.setObjectName("Transaction List")
-        self.holding_listView_2 = QtWidgets.QListView(self.tab_2)
+        
+        
+        # current user
+        ssn = ""
+        balance = 0
+        selectedStock = ""
+        volume = 0
+        fullname = ""
+        
+        ssn = '123456789'
+        connection = db.mydb
+        mycursor = db.mycursor
+        mycursor.execute("SELECT fullname, balance FROM users WHERE ssn = %s", [ssn])
+        results = mycursor.fetchall()
+        print(mycursor.rowcount)
+        balance = results[0]
+        self.trans_listView.addItem(str(balance))
+        
+        self.holding_listView_2 = QtWidgets.QListWidget(self.tab_2)
         self.holding_listView_2.setGeometry(QtCore.QRect(400, 90, 321, 380))
         self.holding_listView_2.setFrameShape(QtWidgets.QFrame.HLine)
         self.holding_listView_2.setFrameShadow(QtWidgets.QFrame.Sunken)
@@ -115,7 +133,7 @@ class MemeWindow(object):
             self.high_label.setText("Enter a legit company stock ID >.<")
         else:
             self.StockWindow = QtWidgets.QMainWindow()
-            self.ui = StockWindow(self.stock_edit.text(), 0)
+            self.ui = StockWindow(self.stock_edit.text(), 0, 123456789)
             self.ui.connectWindows(self.CurrentWindow)
             self.ui.setupUi(self.StockWindow)
             self.StockWindow.show()
