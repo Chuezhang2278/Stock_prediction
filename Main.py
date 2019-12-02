@@ -29,12 +29,14 @@ else:
     print("No SSN like that found.")
 
 # stimulate user stock selection
-selectedStock = "AAPL"
+selectedStock = "AMZN"
 
 # gets number of volumn user owns for stock AAPL
 mycursor.execute("SELECT volume FROM portfolio WHERE ssn = %s AND stockid = %s", (ssn, selectedStock))
 results = mycursor.fetchone()
 if results == None:
+    mycursor.execute("INSERT INTO portfolio (ssn, stockid, volume) VALUES (%s, %s, 0)", (ssn, selectedStock))
+    connection.commit()
     volume = 0
 else:
     volume = results[0]
