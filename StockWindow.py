@@ -214,7 +214,7 @@ class StockWindow(object):
         if num < 1:
             print("User must enter a positive integer.")
         elif num * value > curr_balance:
-            print("User does not have " + str(num * value) + " dollars.")
+            print("User does not have " + str(num * value) + " dollars to buy " + num + " stocks.")
         else:
             print("User bought " + str(num) + " shares!")
             print("Subtracted " + str(value * num) + " to the User's balance!")
