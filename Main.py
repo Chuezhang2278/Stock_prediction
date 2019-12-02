@@ -19,7 +19,7 @@ mycursor = db.mycursor
 # initiate user information
 mycursor.execute("SELECT fullname, balance FROM users WHERE ssn = %s", [ssn])
 results = mycursor.fetchone()
-if(results != None):
+if results != None:
     print("SSN found!")
     fullname = results[0]
     print("The full name of the person is " + fullname)
@@ -34,7 +34,10 @@ selectedStock = "AAPL"
 # gets number of volumn user owns for stock AAPL
 mycursor.execute("SELECT volume FROM portfolio WHERE ssn = %s AND stockid = %s", (ssn, selectedStock))
 results = mycursor.fetchone()
-volume = results[0]
+if results == None:
+    volume = 0
+else:
+    volume = results[0]
 print("He owns " + str(volume) + " " + selectedStock + " stocks")
 
 # stimulate buying/selling stock - need to change this later to connect to some other window
