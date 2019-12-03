@@ -58,6 +58,11 @@ class StockWindow(object):
         font.setPointSize(16)
         font.setWeight(75)
         font.setBold(True)
+        self.balance_label = QtWidgets.QLabel(CurrentWindow)
+        self.balance_label.setGeometry(QtCore.QRect(400, 20, 500, 50))
+        self.balance_label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.balance_label.setObjectName("stock_name_label")
+        self.balance_label.setFont(font)
         self.stock_name_label.setFont(font)
         self.stock_name_label.setStyleSheet("background-color: #2a373f;")
         self.stock_name_label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
@@ -166,6 +171,7 @@ class StockWindow(object):
         self.one_year.setText(QtWidgets.QApplication.translate("CurrentWindow", "1 Year", None, -1))
         self.three_year.setText(QtWidgets.QApplication.translate("CurrentWindow", "3 Years", None, -1))
         self.stock_name_label.setText(QtWidgets.QApplication.translate("CurrentWindow", "Stock Name Today (5 Shares)", None, -1))
+        self.balance_label.setText(QtWidgets.QApplication.translate("CurrentWindow", "", None, -1))
         self.high_label.setText(QtWidgets.QApplication.translate("CurrentWindow", "Today's High Share Value:", None, -1))
         self.low_label.setText(QtWidgets.QApplication.translate("CurrentWindow", "Today's Low Share Value:", None, -1))
         self.open_label.setText(QtWidgets.QApplication.translate("CurrentWindow", "Today's Open Share Value:", None, -1))
@@ -182,6 +188,7 @@ class StockWindow(object):
         self.low_label_update()
         self.open_label_update()
         self.close_label_update()
+        self.update_balance()
 
     def declare_stock_name(self, name):
         self.stock_name = name
@@ -221,8 +228,12 @@ class StockWindow(object):
             new_balance = curr_balance - (value * num)
             print("New balance is " + str(new_balance) + ".")
             db.mycursor.execute("UPDATE users SET balance = %s WHERE ssn = %s", (float(new_balance), UserInfo.ssn))
+            db.mycursor.execute("INSERT INTO trades VALUES (%s, NULL, %s, %s, NOW(), %s, %s)", (UserInfo.ssn, UserInfo.selectedStock, num, float(value), float((value*num*-1))))
             db.mydb.commit()
             self.stock_name_label_update()
+            UserInfo.retrieveUserInfo()
+            UserInfo.retrieveVolume()
+            self.update_balance()
 
     def sell_stock(self):
         value = self.df["High"].tail()[-1]
@@ -244,8 +255,15 @@ class StockWindow(object):
             print("New balance is " + str(new_balance) + ".")
             # update new balance
             db.mycursor.execute("UPDATE users SET balance = %s WHERE ssn = %s", (float(new_balance), UserInfo.ssn))
+            db.mycursor.execute("INSERT INTO trades VALUES (%s, NULL, %s, %s, NOW(), %s, %s)", (UserInfo.ssn, UserInfo.selectedStock, (-1*num), float(value), float((value*num))))
             db.mydb.commit()
             self.stock_name_label_update()
+            UserInfo.retrieveUserInfo()
+            UserInfo.retrieveVolume()
+            self.update_balance()
+
+    def update_balance(self):
+        self.balance_label.setText("Balance: $" + str(UserInfo.balance))
 
     def stock_name_label_update(self):
         print(str(UserInfo.volume))
@@ -314,7 +332,7 @@ if __name__ == "__main__":
     app.setWindowIcon(QtGui.QIcon("UI_Folder/icon.png"))
     app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     CurrentWindow = QtWidgets.QMainWindow()
-    ui = StockWindow("AAPL", 99, '123456789')
+    ui = StockWindow("AAPL")
     ui.setupUi(CurrentWindow)
     CurrentWindow.show()
     sys.exit(app.exec_())
