@@ -128,8 +128,8 @@ class SignUpWindow(object):
         else:
             gender = None
         mycursor = db.mycursor
-        add_user = ("INSERT INTO stockmarket.users(fullname, ssn, username, pass, email, gender) VALUES (%s, %s, %s, %s, %s, %s)")
-        data_user = (fullname, ssn, user, password, email, gender)
+        add_user = ("INSERT INTO stockmarket.users(fullname, ssn, username, pass, email, gender, balance) VALUES (%s, %s, %s, %s, %s, %s, %s)")
+        data_user = (fullname, ssn, user, password, email, gender, 5000)
         try:
             mycursor.execute(add_user, data_user)
         except mysql.connector.Error as err:

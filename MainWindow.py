@@ -54,35 +54,42 @@ class MemeWindow(object):
 
         connection = db.mydb
         mycursor = db.mycursor
-        sqlJoin = "SELECT \
-            users.Fullname, users.Balance AS user, \
-            portfolio.StockID, portfolio.Volume AS stock \
-            FROM users \
-            JOIN portfolio ON users.SSN = portfolio.SSN \
-            WHERE users.SSN = %s"
-        sqlJoin2 = "SELECT \
-            users.Fullname, users.Balance AS user, \
-            trades.Volume, trades.PricePerShare, trades.TotalCost, trades.Date AS trade \
-            FROM users \
-            JOIN trades ON users.SSN = trades.SSN \
-            WHERE users.SSN = %s"
-        mycursor.execute(sqlJoin2, [UserInfo.ssn])
-        myresult = mycursor.fetchall()
-        #transaction = myresult[0]
-        #self.trans_listView.addItem(str(transaction))
+        sql = "SELECT trades.TradeID, trades.StockID, trades.PricePerShare, trades.Volume, trades.Date, trades.TotalCost FROM trades WHERE trades.SSN = %s"
+        mycursor.execute(sql, [UserInfo.ssn])
+        transaction = mycursor.fetchall()
+        print(transaction[0][0])
+        for x in transaction:
+            self.trans_listView.addItem(str(x))
 
-        mycursor.execute(sqlJoin, [UserInfo.ssn])
-        results = mycursor.fetchall()
-        print(mycursor.rowcount)
-        if results != None:
-            balance = results[0]
+        # sqlJoin = "SELECT \
+        #     users.Fullname, users.Balance AS user, \
+        #     portfolio.StockID, portfolio.Volume AS stock \
+        #     FROM users \
+        #     JOIN portfolio ON users.SSN = portfolio.SSN \
+        #     WHERE users.SSN = %s"
+        # sqlJoin2 = "SELECT \
+        #     users.Fullname, users.Balance AS user, \
+        #     trades.Volume, trades.PricePerShare, trades.TotalCost, trades.Date AS trade \
+        #     FROM users \
+        #     JOIN trades ON users.SSN = trades.SSN \
+        #     WHERE users.SSN = %s"
+        # mycursor.execute(sqlJoin2, [UserInfo.ssn])
+        # myresult = mycursor.fetchall()
+        # #transaction = myresult[0]
+        # #self.trans_listView.addItem(str(transaction))
+
+        # mycursor.execute(sqlJoin, [UserInfo.ssn])
+        # results = mycursor.fetchall()
+        # print(mycursor.rowcount)
+        # if results != None:
+        #     balance = results[0]
         
         self.holding_listView_2 = QtWidgets.QListWidget(self.tab_2)
         self.holding_listView_2.setGeometry(QtCore.QRect(400, 90, 321, 380))
         self.holding_listView_2.setFrameShape(QtWidgets.QFrame.HLine)
         self.holding_listView_2.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.holding_listView_2.setObjectName("Holding List")
-        self.holding_listView_2.addItem(str(balance))
+        # self.holding_listView_2.addItem(str(balance))
         self.label_4 = QtWidgets.QLabel(self.tab_2)
         self.label_4.setGeometry(QtCore.QRect(400, 60, 131, 21))
         font = QtGui.QFont()

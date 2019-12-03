@@ -68,10 +68,10 @@ class LoginWindow(object):
         print("called1")
         self.SignUpWindow = QtWidgets.QMainWindow()
         self.ui = SignUpWindow()
-        self.ui.setupUi(self.SignUpWindow, CurrentWindow)
+        self.ui.setupUi(self.SignUpWindow, self.CurrentWindow)
         print("called")
         self.SignUpWindow.show()
-        CurrentWindow.hide()
+        self.CurrentWindow.hide()
 
     def login(self):
         username_text = self.username_edit.text()
