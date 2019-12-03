@@ -52,14 +52,10 @@ class MemeWindow(object):
         self.trans_listView.setObjectName("Transaction List")
         
 
-        connection = db.mydb
-        mycursor = db.mycursor
-        sql = "SELECT trades.TradeID, trades.StockID, trades.PricePerShare, trades.Volume, trades.Date, trades.TotalCost FROM trades WHERE trades.SSN = %s"
-        mycursor.execute(sql, [UserInfo.ssn])
-        transaction = mycursor.fetchall()
-        print(transaction[0][0])
-        for x in transaction:
-            self.trans_listView.addItem(str(x))
+        self.connection = db.mydb
+        self.mycursor = db.mycursor
+        
+        self.transactions()
 
         # sqlJoin = "SELECT \
         #     users.Fullname, users.Balance AS user, \
@@ -142,6 +138,14 @@ class MemeWindow(object):
         self.label_4.setText(_translate("MainWindow", "Holdings"))
         self.label_3.setText(_translate("MainWindow", "Transaction History"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Profile Page"))
+
+    def transactions(self):
+        sql = "SELECT trades.TradeID, trades.StockID, trades.PricePerShare, trades.Volume, trades.Date, trades.TotalCost FROM trades WHERE trades.SSN = %s"
+        self.mycursor.execute(sql, [UserInfo.ssn])
+        transaction = self.mycursor.fetchall()
+        if (len(transaction) > 0):
+            for x in transaction:
+                self.trans_listView.addItem(str(x))
 
     def stock_click(self):
         try:
