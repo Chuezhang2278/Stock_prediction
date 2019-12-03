@@ -63,11 +63,22 @@ class MemeWindow(object):
         connection = db.mydb
         mycursor = db.mycursor
         sqlJoin = "SELECT \
-           users.Fullname, users.Balance AS user, \
-           portfolio.StockID, portfolio.Volume AS stock \
-           FROM users \
-           JOIN portfolio ON users.SSN = portfolio.SSN \
-           WHERE users.SSN = %s"
+            users.Fullname, users.Balance AS user, \
+            portfolio.StockID, portfolio.Volume AS stock \
+            FROM users \
+            JOIN portfolio ON users.SSN = portfolio.SSN \
+            WHERE users.SSN = %s"
+        sqlJoin2 = "SELECT \
+            users.Fullname, users.Balance AS user, \
+            trades.Volume, trades.PricePerShare, trades.TotalCost, trades.Date AS trade \
+            FROM users \
+            JOIN trades ON users.SSN = trades.SSN \
+            WHERE users.SSN = %s"
+        mycursor.execute(sqlJoin2, ssn)
+        myresult = mycursor.fetchall()
+        transaction = myresult[0]
+        self.trans_listView.addItem(str(transaction))
+
         mycursor.execute(sqlJoin, ssn)
         results = mycursor.fetchall()
         print(mycursor.rowcount)
