@@ -62,11 +62,16 @@ class MemeWindow(object):
         ssn = '123456789'
         connection = db.mydb
         mycursor = db.mycursor
-        mycursor.execute("SELECT fullname, balance FROM users WHERE ssn = %s", [ssn])
+        sqlJoin = "SELECT \
+           users.Fullname, users.Balance AS user, \
+           portfolio.StockID, portfolio.Volume AS stock \
+           FROM users \
+           JOIN portfolio ON users.SSN = portfolio.SSN"
+        mycursor.execute(sqlJoin)
         results = mycursor.fetchall()
         print(mycursor.rowcount)
         balance = results[0]
-        self.trans_listView.addItem(str(balance))
+        self.holding_listView2.addItem(str(balance))
         
         self.holding_listView_2 = QtWidgets.QListWidget(self.tab_2)
         self.holding_listView_2.setGeometry(QtCore.QRect(400, 90, 321, 380))
