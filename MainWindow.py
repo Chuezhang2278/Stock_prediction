@@ -71,13 +71,13 @@ class MemeWindow(object):
         results = mycursor.fetchall()
         print(mycursor.rowcount)
         balance = results[0]
-        self.holding_listView2.addItem(str(balance))
         
         self.holding_listView_2 = QtWidgets.QListWidget(self.tab_2)
         self.holding_listView_2.setGeometry(QtCore.QRect(400, 90, 321, 380))
         self.holding_listView_2.setFrameShape(QtWidgets.QFrame.HLine)
         self.holding_listView_2.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.holding_listView_2.setObjectName("Holding List")
+        self.holding_listView_2.addItem(str(balance))
         self.label_4 = QtWidgets.QLabel(self.tab_2)
         self.label_4.setGeometry(QtCore.QRect(400, 60, 131, 21))
         font = QtGui.QFont()
