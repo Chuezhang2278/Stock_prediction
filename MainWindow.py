@@ -59,15 +59,16 @@ class MemeWindow(object):
         volume = 0
         fullname = ""
         
-        ssn = '123456789'
+        ssn = ("123456789", )
         connection = db.mydb
         mycursor = db.mycursor
         sqlJoin = "SELECT \
            users.Fullname, users.Balance AS user, \
            portfolio.StockID, portfolio.Volume AS stock \
            FROM users \
-           JOIN portfolio ON users.SSN = portfolio.SSN"
-        mycursor.execute(sqlJoin)
+           JOIN portfolio ON users.SSN = portfolio.SSN \
+           WHERE users.SSN = %s"
+        mycursor.execute(sqlJoin, ssn)
         results = mycursor.fetchall()
         print(mycursor.rowcount)
         balance = results[0]
