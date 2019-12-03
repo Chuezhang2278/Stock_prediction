@@ -8,7 +8,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-import sys, icon_rc, qdarkstyle, datetime, mysql.connector, DatabaseConnect as db
+import sys, icon_rc, qdarkstyle, datetime, mysql.connector, DatabaseConnect as db, UserInfo
 import pandas as pd
 import matplotlib.pyplot as plt
 import pyqtgraph as pg
@@ -17,11 +17,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from pandas_datareader import data as data, wb
 
 class StockWindow(object):
-    def __init__(self, name, shares, ssn):
+    def __init__(self, name):
         self.stock_name = name
-        self.shares = shares
         self.df = None
-        self.ssn = ssn
 
     def setupUi(self, CurrentWindow):
         self.CurrentWindow = CurrentWindow
@@ -208,7 +206,7 @@ class StockWindow(object):
     def buy_stock(self):
         value = self.df["High"].tail()[-1]
         num = int(self.buy_edit.text())
-        db.mycursor.execute("SELECT balance FROM users WHERE ssn = %s", [self.ssn])
+        db.mycursor.execute("SELECT balance FROM users WHERE ssn = %s", [UserInfo.ssn])
         results = db.mycursor.fetchone()
         curr_balance = results[0]
         if num < 1:
@@ -218,11 +216,11 @@ class StockWindow(object):
         else:
             print("User bought " + str(num) + " shares!")
             print("Subtracted " + str(value * num) + " to the User's balance!")
-            self.shares += num
-            db.mycursor.execute("UPDATE portfolio SET volume = %s WHERE ssn = %s AND stockid = %s", (self.shares, self.ssn, self.stock_name))
+            UserInfo.volume += num
+            db.mycursor.execute("UPDATE portfolio SET volume = %s WHERE ssn = %s AND stockid = %s", (UserInfo.volume, UserInfo.ssn, self.stock_name))
             new_balance = curr_balance - (value * num)
             print("New balance is " + str(new_balance) + ".")
-            db.mycursor.execute("UPDATE users SET balance = %s WHERE ssn = %s", (float(new_balance), self.ssn))
+            db.mycursor.execute("UPDATE users SET balance = %s WHERE ssn = %s", (float(new_balance), UserInfo.ssn))
             db.mydb.commit()
             self.stock_name_label_update()
 
@@ -231,26 +229,27 @@ class StockWindow(object):
         num = int(self.sell_edit.text())
         if num < 1:
             print("User must enter a positive integer.")
-        elif num > self.shares:
+        elif num > UserInfo.volume:
             print("User does not have " + str(num) + " stocks to sell.")
         else:
             print("User sold " + str(num) + " shares!")
             print("Added " + str(value * num) + " to the User's balance!")
-            self.shares -= num
+            UserInfo.volume -= num
             # update number of volume
-            db.mycursor.execute("UPDATE portfolio SET volume = %s WHERE ssn = %s AND stockid = %s", (self.shares, self.ssn, self.stock_name))
+            db.mycursor.execute("UPDATE portfolio SET volume = %s WHERE ssn = %s AND stockid = %s", (UserInfo.volume, UserInfo.ssn, self.stock_name))
             # find current balance
-            db.mycursor.execute("SELECT balance FROM users WHERE ssn = %s", [self.ssn])
+            db.mycursor.execute("SELECT balance FROM users WHERE ssn = %s", [UserInfo.ssn])
             results = db.mycursor.fetchone()
             new_balance = results[0] + (value * num)
             print("New balance is " + str(new_balance) + ".")
             # update new balance
-            db.mycursor.execute("UPDATE users SET balance = %s WHERE ssn = %s", (float(new_balance), self.ssn))
+            db.mycursor.execute("UPDATE users SET balance = %s WHERE ssn = %s", (float(new_balance), UserInfo.ssn))
             db.mydb.commit()
             self.stock_name_label_update()
 
     def stock_name_label_update(self):
-        self.stock_name_label.setText(str(self.stock_name) + " Share Prices (You own " + str(self.shares) +" shares)")
+        print(str(UserInfo.volume))
+        self.stock_name_label.setText(str(self.stock_name) + " Share Prices (You own " + str(UserInfo.volume) +" shares)")
 
     def change_label_update(self, start, end):
         start_value = self.df["High"].head(1)[0]

@@ -7,7 +7,7 @@
 #      by: pyside2-uic  running on PySide2 5.13.2
 #
 # WARNING! All changes made in this file will be lost!
-import sys, icon_rc, qdarkstyle, mysql.connector
+import sys, icon_rc, qdarkstyle, mysql.connector, DatabaseConnect as db
 from PyQt5 import QtCore, QtGui, QtWidgets
 from ErrorWindow import ErrorWindow
 
@@ -113,11 +113,7 @@ class SignUpWindow(object):
         self.nonbinaryradio.setText(QtWidgets.QApplication.translate("CurrentWindow", "Non-Binary", None, -1))
 
     def add_user(self):
-        mydb = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='123password',
-            database='memestock')
+        mydb = db.mydb
         fullname = self.fullname_edit.text()
         ssn = self.ssn_edit.text()
         user = self.username_edit.text()
@@ -131,8 +127,8 @@ class SignUpWindow(object):
             gender = 'Non-Binary'
         else:
             gender = None
-        mycursor = mydb.cursor()
-        add_user = ("INSERT INTO memestock.users(fullname, ssn, username, pass, email, gender) VALUES (%s, %s, %s, %s, %s, %s)")
+        mycursor = db.mycursor
+        add_user = ("INSERT INTO stockmarket.users(fullname, ssn, username, pass, email, gender) VALUES (%s, %s, %s, %s, %s, %s)")
         data_user = (fullname, ssn, user, password, email, gender)
         try:
             mycursor.execute(add_user, data_user)

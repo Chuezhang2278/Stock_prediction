@@ -1,10 +1,11 @@
-import sys, icon_rc, qdarkstyle, mysql.connector
+import sys, icon_rc, qdarkstyle, mysql.connector, UserInfo, DatabaseConnect as db
 from PyQt5 import QtCore, QtGui, QtWidgets
 from MainWindow import MemeWindow
 from SignUp import SignUpWindow
 
 class LoginWindow(object):
     def setupUi(self, CurrentWindow):
+        self.CurrentWindow = CurrentWindow
         CurrentWindow.setObjectName("CurrentWindow")
         CurrentWindow.setEnabled(True)
         CurrentWindow.resize(461, 253)
@@ -75,23 +76,25 @@ class LoginWindow(object):
     def login(self):
         username_text = self.username_edit.text()
         password_text = self.password_edit.text()
-
-        mydb = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='123password',
-            database='stockmarket')
-
-        mycursor = mydb.cursor()
+        mydb = db.mydb
+        mycursor = db.mycursor
 
         mycursor.execute("SELECT username, pass FROM users WHERE username = %s AND pass = %s", (username_text, password_text))
         usercheck = mycursor.fetchone()
         if(usercheck != None and usercheck[0] == username_text and usercheck[1] == password_text):
             print("Login Success!")
+
+            sql = "SELECT users.SSN FROM users WHERE users.Username = %s"
+            mycursor.execute(sql, [username_text])
+            myresult = mycursor.fetchone()
+            UserInfo.ssn = myresult[0]
+
+            UserInfo.retrieveUserInfo()
+
             self.MemeWindow = QtWidgets.QMainWindow()
             self.ui = MemeWindow()
             self.ui.setupUi(self.MemeWindow)
-            CurrentWindow.hide()
+            self.CurrentWindow.hide()
             self.MemeWindow.show()
         else:
             print("Login Failed!")

@@ -6,7 +6,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-import sys, icon_rc, qdarkstyle, datetime, mysql.connector, DatabaseConnect as db
+import sys, icon_rc, qdarkstyle, datetime, mysql.connector, DatabaseConnect as db, UserInfo
 from PyQt5 import QtCore, QtGui, QtWidgets
 from StockWindow import StockWindow
 from pandas_datareader import data as data, wb
@@ -51,15 +51,7 @@ class MemeWindow(object):
         self.trans_listView.setFrameShape(QtWidgets.QFrame.HLine)
         self.trans_listView.setObjectName("Transaction List")
         
-        
-        # current user
-        ssn = ""
-        balance = 0
-        selectedStock = ""
-        volume = 0
-        fullname = ""
-        
-        ssn = ("123456789", )
+
         connection = db.mydb
         mycursor = db.mycursor
         sqlJoin = "SELECT \
@@ -74,15 +66,16 @@ class MemeWindow(object):
             FROM users \
             JOIN trades ON users.SSN = trades.SSN \
             WHERE users.SSN = %s"
-        mycursor.execute(sqlJoin2, ssn)
+        mycursor.execute(sqlJoin2, [UserInfo.ssn])
         myresult = mycursor.fetchall()
-        transaction = myresult[0]
-        self.trans_listView.addItem(str(transaction))
+        #transaction = myresult[0]
+        #self.trans_listView.addItem(str(transaction))
 
-        mycursor.execute(sqlJoin, ssn)
+        mycursor.execute(sqlJoin, [UserInfo.ssn])
         results = mycursor.fetchall()
         print(mycursor.rowcount)
-        balance = results[0]
+        if results != None:
+            balance = results[0]
         
         self.holding_listView_2 = QtWidgets.QListWidget(self.tab_2)
         self.holding_listView_2.setGeometry(QtCore.QRect(400, 90, 321, 380))
@@ -150,7 +143,9 @@ class MemeWindow(object):
             self.high_label.setText("Enter a legit company stock ID >.<")
         else:
             self.StockWindow = QtWidgets.QMainWindow()
-            self.ui = StockWindow(self.stock_edit.text(), 0, 123456789)
+            UserInfo.selectedStock = self.stock_edit.text()
+            UserInfo.retrieveVolume()
+            self.ui = StockWindow(self.stock_edit.text())
             self.ui.connectWindows(self.CurrentWindow)
             self.ui.setupUi(self.StockWindow)
             self.StockWindow.show()
