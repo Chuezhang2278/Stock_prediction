@@ -228,7 +228,7 @@ class StockWindow(object):
             new_balance = curr_balance - (value * num)
             print("New balance is " + str(new_balance) + ".")
             db.mycursor.execute("UPDATE users SET balance = %s WHERE ssn = %s", (float(new_balance), UserInfo.ssn))
-            db.mycursor.execute("INSERT INTO trades VALUES (%s, NULL, %s, %s, NOW(), %s, %s)", (UserInfo.ssn, UserInfo.selectedStock, num, float(value), float((value*num*-1))))
+            #db.mycursor.execute("INSERT INTO trades VALUES (%s, %s, %s, %s, NOW(), %s, %s)", (UserInfo.ssn, test, UserInfo.selectedStock, num, float(value), float((value*num*-1))))
             db.mydb.commit()
             self.stock_name_label_update()
             UserInfo.retrieveUserInfo()

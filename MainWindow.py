@@ -56,30 +56,30 @@ class MemeWindow(object):
         self.mycursor = db.mycursor
         
         self.transactions()
+        '''
+        sqlJoin = "SELECT \
+           users.Fullname, users.Balance AS user, \
+            portfolio.StockID, portfolio.Volume AS stock \
+            FROM users \
+            JOIN portfolio ON users.SSN = portfolio.SSN \
+            WHERE users.SSN = %s"
+        sqlJoin2 = "SELECT \
+            users.Fullname, users.Balance AS user, \
+            trades.Volume, trades.PricePerShare, trades.TotalCost, trades.Date AS trade \
+            FROM users \
+            JOIN trades ON users.SSN = trades.SSN \
+            WHERE users.SSN = %s"
+        self.mycursor.execute(sqlJoin2, [UserInfo.ssn])
+        myresult = self.mycursor.fetchall()
+        transaction = myresult[0]
+        self.trans_listView.addItem(str(transaction))
 
-        # sqlJoin = "SELECT \
-        #     users.Fullname, users.Balance AS user, \
-        #     portfolio.StockID, portfolio.Volume AS stock \
-        #     FROM users \
-        #     JOIN portfolio ON users.SSN = portfolio.SSN \
-        #     WHERE users.SSN = %s"
-        # sqlJoin2 = "SELECT \
-        #     users.Fullname, users.Balance AS user, \
-        #     trades.Volume, trades.PricePerShare, trades.TotalCost, trades.Date AS trade \
-        #     FROM users \
-        #     JOIN trades ON users.SSN = trades.SSN \
-        #     WHERE users.SSN = %s"
-        # mycursor.execute(sqlJoin2, [UserInfo.ssn])
-        # myresult = mycursor.fetchall()
-        # #transaction = myresult[0]
-        # #self.trans_listView.addItem(str(transaction))
-
-        # mycursor.execute(sqlJoin, [UserInfo.ssn])
-        # results = mycursor.fetchall()
-        # print(mycursor.rowcount)
-        # if results != None:
-        #     balance = results[0]
-        
+        self.mycursor.execute(sqlJoin, [UserInfo.ssn])
+        results = self.mycursor.fetchall()
+        print(self.mycursor.rowcount)
+        if results != None:
+            balance = results[0]
+        '''
         self.holding_listView_2 = QtWidgets.QListWidget(self.tab_2)
         self.holding_listView_2.setGeometry(QtCore.QRect(400, 90, 321, 380))
         self.holding_listView_2.setFrameShape(QtWidgets.QFrame.HLine)
